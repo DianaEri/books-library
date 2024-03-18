@@ -26,7 +26,7 @@ function App() {
         publishers: result.publisher,
         languages: result.language,
         subjects: result.subject,
-        publishYear: result.publish_year ? result.publish_year[0] : 'N/A',
+        publishYear: result.first_publish_year,
         key: result
       }))); // Limit to 30 results and extract necessary fields
     } catch (error) {
