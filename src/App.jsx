@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './App.css';
 
 function App() {
   const [query, setQuery] = useState('');
@@ -61,7 +62,7 @@ function App() {
   };
 
   return (
-    <div>
+    <div className='search-container'>
       {!selectedResult && (
         <div>
           <select value={searchBy} onChange={handleSelectChange}>
@@ -104,7 +105,7 @@ function App() {
       )}
       {selectedResult && (
         <div>
-          <button onClick={handleBackToSearch}>Back to Search Results</button>
+          <button className='details' onClick={handleBackToSearch}>Back to Search Results</button>
           <h2>{selectedResult.title}</h2>
           <p><strong>Author(s):</strong> {selectedResult.authors}</p>
           <p><strong>Publishers:</strong> {selectedResult.publishers}</p>
