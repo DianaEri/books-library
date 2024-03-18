@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 
 function App() {
   const [query, setQuery] = useState('');
+  const [searchBy, setSearchBy] = useState('title');
   const [results, setResults] = useState([]);
   const [totalResults, setTotalResults] = useState(0);
   const [error, setError] = useState(null);
 
   const handleSearch = async () => {
     try {
-      const uri = `https://openlibrary.org/search.json?title=${query}`;
+      const uri = `https://openlibrary.org/search.json?${searchBy}=${query}`;
       const response = await fetch(uri);
       if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -30,14 +31,23 @@ function App() {
     setQuery(event.target.value);
   };
 
+  const handleSelectChange = (event) => {
+    setSearchBy(event.target.value);
+  };
+
   return (
     <div>
       <div>
+        <select value={searchBy} onChange={handleSelectChange}>
+          <option value="title">Title</option>
+          <option value="author">Author</option>
+          <option value="subject">Subject</option>
+        </select>
         <input
           type="text"
           value={query}
           onChange={handleInputChange}
-          placeholder="Search..."
+          placeholder={`Search by ${searchBy}...`}
         />
         <button onClick={handleSearch}>Search</button>
       </div>
