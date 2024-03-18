@@ -47,10 +47,10 @@ function App() {
       const data = await response.json();
       setSelectedResult({
         title: data.title,
-        authors: data.author_name,
-        publishers: data.publisher,
-        languages: data.language,
-        subjects: data.subject
+        authors: data.authors ? data.authors.map(author => author.name) : ['N/A'],
+        publishers: data.publishers ? data.publishers.join(', ') : 'N/A',
+        languages: data.languages ? data.languages.map(language => language.key) : ['N/A'],
+        subjects: data.subjects ? data.subjects.map(subject => subject.name) : ['N/A']
       });
     } catch (error) {
       setError(error.message);
@@ -107,10 +107,10 @@ function App() {
         <div>
           <button className='details' onClick={handleBackToSearch}>Back to Search Results</button>
           <h2>{selectedResult.title}</h2>
-          <p><strong>Author(s):</strong> {selectedResult.authors}</p>
+          <p><strong>Author(s):</strong> {selectedResult.authors.join(', ')}</p>
           <p><strong>Publishers:</strong> {selectedResult.publishers}</p>
-          <p><strong>Languages:</strong> {selectedResult.languages}</p>
-          <p><strong>Subjects:</strong> {selectedResult.subjects}</p>
+          <p><strong>Languages:</strong> {selectedResult.languages.join(', ')}</p>
+          <p><strong>Subjects:</strong> {selectedResult.subjects.join(', ')}</p>
         </div>
       )}
     </div>
