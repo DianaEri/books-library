@@ -22,8 +22,12 @@ function App() {
       setResults(docs.slice(0, 30).map(result => ({
         title: result.title,
         author: result.author_name ? result.author_name[0] : 'N/A',
+        authors: result.author_name,
+        publishers: result.publisher,
+        languages: result.language,
+        subjects: result.subject,
         publishYear: result.publish_year ? result.publish_year[0] : 'N/A',
-        key: result.key
+        key: result
       }))); // Limit to 30 results and extract necessary fields
     } catch (error) {
       setError(error.message);
@@ -38,23 +42,15 @@ function App() {
     setSearchBy(event.target.value);
   };
 
-  const handleResultClick = async (key) => {
-    try {
-      const response = await fetch(`https://openlibrary.org${key}.json`);
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      const data = await response.json();
+  const handleResultClick = async (data) => {
+      console.log(data)
       setSelectedResult({
         title: data.title,
-        authors: data.authors ? data.authors.map(author => author.name) : ['N/A'],
+        authors: data.authors,
         publishers: data.publishers ? data.publishers.join(', ') : 'N/A',
-        languages: data.languages ? data.languages.map(language => language.key) : ['N/A'],
-        subjects: data.subjects ? data.subjects.map(subject => subject.name) : ['N/A']
+        languages: data.languages ? data.languages.join(', ') : 'N/A',
+        subjects: data.subjects ? data.subjects.join(', ') : 'N/A'
       });
-    } catch (error) {
-      setError(error.message);
-    }
   };
 
   const handleBackToSearch = () => {
@@ -93,7 +89,7 @@ function App() {
             </thead>
             <tbody>
               {results.map((result, index) => (
-                <tr key={index} onClick={() => handleResultClick(result.key)}>
+                <tr key={index} onClick={() => handleResultClick(result)}>
                   <td>{result.title}</td>
                   <td>{result.author}</td>
                   <td>{result.publishYear}</td>
@@ -107,10 +103,10 @@ function App() {
         <div>
           <button className='details' onClick={handleBackToSearch}>Back to Search Results</button>
           <h2>{selectedResult.title}</h2>
-          <p><strong>Author(s):</strong> {selectedResult.authors.join(', ')}</p>
+          <p><strong>Author(s):</strong> {selectedResult.authors}</p>
           <p><strong>Publishers:</strong> {selectedResult.publishers}</p>
-          <p><strong>Languages:</strong> {selectedResult.languages.join(', ')}</p>
-          <p><strong>Subjects:</strong> {selectedResult.subjects.join(', ')}</p>
+          <p><strong>Languages:</strong> {selectedResult.languages}</p>
+          <p><strong>Subjects:</strong> {selectedResult.subjects}</p>
         </div>
       )}
     </div>
