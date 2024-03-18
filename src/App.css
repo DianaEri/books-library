@@ -59,8 +59,8 @@ input[type=text] {
 }
 
 select {
-  padding: 6px;
-  margin-top: 8px;
+  padding: 5.5px;
+  margin-top: 6px;
   font-size: 17px;
   border: none;
 }
