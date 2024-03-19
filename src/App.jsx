@@ -78,9 +78,12 @@ function App() {
 
   return (
     <div className='search-container'>
-      <img src={bookSearch} className="logo react" alt="Search books" />
       {!selectedResult && (
         <div>
+          <img src={bookSearch} className="logo react" alt="Search books" />
+          <p className="read-the-docs">
+            Use the search bar to access the Open Library API.
+          </p>
           <select value={searchBy} onChange={handleSelectChange}>
             <option value="title">Title</option>
             <option value="author">Author</option>
@@ -99,7 +102,7 @@ function App() {
       {totalResults > 0 && !selectedResult && <p>{totalResults} results found.</p>}
       {!selectedResult && (
         <div>
-          <table>
+          <table id="customers">
             <thead>
               <tr>
                 <th>Title</th>
