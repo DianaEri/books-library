@@ -8,6 +8,7 @@ function App() {
   const [totalResults, setTotalResults] = useState(0);
   const [error, setError] = useState(null);
   const [selectedResult, setSelectedResult] = useState(null);
+  const [coverImage, setCoverImage] = useState(null);
 
   const handleSearch = async () => {
     try {
@@ -27,6 +28,7 @@ function App() {
         languages: result.language,
         subjects: result.subject,
         publishYear: result.first_publish_year,
+        isbn: result.isbn ? result.isbn[0] : 'N/A',
         key: result
       }))); // Limit to 30 results and extract necessary fields
     } catch (error) {
@@ -43,18 +45,34 @@ function App() {
   };
 
   const handleResultClick = async (data) => {
-      console.log(data)
+    try {
       setSelectedResult({
         title: data.title,
         authors: data.authors,
         publishers: data.publishers ? data.publishers.join(', ') : 'N/A',
         languages: data.languages ? data.languages.join(', ') : 'N/A',
-        subjects: data.subjects ? data.subjects.join(', ') : 'N/A'
+        subjects: data.subjects ? data.subjects.join(', ') : 'N/A',
+        isbn: data.isbn ? data.isbn[0] : null
       });
+
+      if (data.isbn && data.isbn[0]) {
+        const isbn = data.isbn[0];
+        const imageResponse = await fetch(`https://covers.openlibrary.org/b/isbn/${isbn}-M.jpg`);
+        if (imageResponse.ok) {
+          const imageURL = `https://covers.openlibrary.org/b/isbn/${isbn}-M.jpg`;
+          setCoverImage(imageURL);
+        } else {
+          setCoverImage(null);
+        }
+      }
+    } catch (error) {
+      setError(error.message);
+    }
   };
 
   const handleBackToSearch = () => {
     setSelectedResult(null);
+    setCoverImage(null);
   };
 
   return (
@@ -103,6 +121,7 @@ function App() {
         <div>
           <button className='details' onClick={handleBackToSearch}>Back to Search Results</button>
           <h2>{selectedResult.title}</h2>
+          {coverImage && <img src={coverImage} alt="Book Cover" />}
           <p><strong>Author(s):</strong> {selectedResult.authors}</p>
           <p><strong>Publishers:</strong> {selectedResult.publishers}</p>
           <p><strong>Languages:</strong> {selectedResult.languages}</p>
