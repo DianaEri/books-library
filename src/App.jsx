@@ -48,7 +48,7 @@ function App() {
     try {
       setSelectedResult({
         title: data.title,
-        authors: data.authors,
+        authors: data.authors ? data.authors.join(', ') : 'N/A',
         publishers: data.publishers ? data.publishers.join(', ') : 'N/A',
         languages: data.languages ? data.languages.join(', ') : 'N/A',
         subjects: data.subjects ? data.subjects.join(', ') : 'N/A',
