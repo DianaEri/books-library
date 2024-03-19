@@ -28,7 +28,7 @@ function App() {
         languages: result.language,
         subjects: result.subject,
         publishYear: result.first_publish_year,
-        isbn: result.isbn ? result.isbn[0] : 'N/A',
+        isbn: result.isbn,
         key: result
       }))); // Limit to 30 results and extract necessary fields
     } catch (error) {
