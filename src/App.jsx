@@ -128,6 +128,9 @@ function App() {
           <p><strong>Subjects:</strong> {selectedResult.subjects}</p>
         </div>
       )}
+      <footer>
+        <p>Powered by <a href="https://openlibrary.org">Open Library</a></p>
+      </footer>
     </div>
   );
 }
