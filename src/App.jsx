@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
+import bookSearch from './assets/bookSearch.png';
 
 function App() {
   const [query, setQuery] = useState('');
@@ -77,6 +78,7 @@ function App() {
 
   return (
     <div className='search-container'>
+      <img src={bookSearch} className="logo react" alt="Search books" />
       {!selectedResult && (
         <div>
           <select value={searchBy} onChange={handleSelectChange}>
